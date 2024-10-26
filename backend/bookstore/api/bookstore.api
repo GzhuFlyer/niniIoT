@@ -1,0 +1,107 @@
+syntax = "v1"
+
+info (
+	title: // TODO: add title
+	desc: // TODO: add description
+	author: "gzhuflyer"
+	email: "gzhuflyer@foxmail.com"
+)
+
+type (
+	addReq {
+		Book  string `form:"book"`
+		Price int64  `form:"price"`
+	}
+	addResp {
+		Ok bool `json:"ok"`
+	}
+)
+
+type (
+	checkReq {
+		Book string `form:"book"`
+	}
+	checkResp {
+		Found bool  `json:"found"`
+		Price int64 `json:"price"`
+	}
+)
+
+@server(
+	jwt: JwtAuth
+)
+service bookstore-api {
+	@handler AddHandler
+	get /add (addReq) returns (addResp)
+
+	@handler CheckHandler
+	get /check (checkReq) returns (checkResp)
+}
+
+type JwtTokenRequest {
+}
+
+type JwtTokenResponse {
+	AccessToken  string `json:"access_token"`
+	AccessExpire int64  `json:"access_expire"`
+	RefreshAfter int64  `json:"refresh_after"` // 建议客户端刷新token的绝对时间
+}
+
+type GetUserRequest {
+	UserId string `json:"userId"`
+}
+
+type GetUserResponse {
+	Name string `json:"name"`
+}
+
+// service bookstore-api {
+// 	@handler JwtHandler
+// 	post /user/token(JwtTokenRequest) returns (JwtTokenResponse)
+// }
+
+// @server(
+// 	jwt: JwtAuth
+// )
+// service bookstore-api {
+// 	@handler GetUser
+// 	post /user/info(GetUserRequest) returns (GetUserResponse)
+// }
+
+type (
+	RegisterReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+		Age      int    `json:"age"`
+		Gender   string `json:"gender"`
+	}
+
+	RegisterResp {
+		Msg string `json:"msg"`
+	}
+
+	LoginReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	LoginResp {
+		Username     string `json:"Username"`
+		Age          int    `json:"age"`
+		Gender       string `json:"gender"`
+		Token        string `json:"token"`
+		ExpireTime   int64  `json:"expire_time"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+)
+
+// 用户接口
+service bookstore-api  {
+	// 注册
+	@handler signIn
+	// 请求方式， 路由地址， （请求数据）， （响应数据）
+	post /user/register (RegisterReq) returns (RegisterResp)
+	// 登录
+	@handler GetUserMsg
+	post /user/login (LoginReq) returns(LoginResp)
+}

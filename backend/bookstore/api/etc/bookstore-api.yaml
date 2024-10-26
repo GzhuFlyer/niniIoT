@@ -1,0 +1,28 @@
+Name: bookstore-api
+Host: 0.0.0.0
+Port: 8888
+CertFile: ./etc/cert/server.crt     # SSL 证书文件路径
+KeyFile: ./etc/cert/server.key         # SSL 私钥文件路径
+
+Add:
+  Etcd:
+    Hosts:
+      - localhost:2379
+    Key: add.rpc
+Check:
+  Etcd:
+    Hosts:
+      - localhost:2379
+    Key: check.rpc
+
+Mysql:
+  DataSource: root:my-secret-pw@tcp(localhost:3306)/gozero?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+  - Host: localhost:6379
+# CacheRedis: 
+  # - Host: 172.15.0.11:6379 
+  #   Pass: root 
+  #   Type: node
+JwtAuth:
+  AccessSecret: ad879037-c7a4-4063-9236-6bfc35d54123
+  AccessExpire: 86400

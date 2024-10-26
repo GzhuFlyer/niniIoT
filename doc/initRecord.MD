@@ -13,3 +13,11 @@
 ```
 
 上面是使用 go-zero做的一个 短链服务，用于实习回顾 go-zero的一些知识点。
+
+2,注册登录查询，ssl支持
+### 运行 
+```
+1，./run bash #运行第三方组件
+2，cd rpc/add ，go run add.go &&cd rpc/check && go run check.go
+
+```
